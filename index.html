@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IELTS Final Exam</title>
+<style>:root{--primary:#3b1f4a;--primary-2:#7e2a8f;--primary-soft:#f3e8f6;--accent:#d946ef;--accent-dark:#a21caf;--accent-soft:#f5d0fe;--accent-ink:#fff;--bg:#f7f3f8;--ink:#221a26;--muted:#6b5d72}
+:root{--fs:18px;--radius:14px}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:"Segoe UI",Tahoma,Arial,sans-serif;font-size:var(--fs);line-height:1.6;color:var(--ink);background:var(--bg)}
+button{font:inherit;cursor:pointer}
+input,select{font:inherit}
+.ar{font-family:Tahoma,"Segoe UI",Arial,sans-serif;direction:rtl;unicode-bidi:isolate}
+.hidden{display:none!important}
+
+/* ---------- start screen ---------- */
+#start{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:30px 16px;background:radial-gradient(circle at 15% 15%,var(--accent-soft),transparent 45%),radial-gradient(circle at 85% 85%,var(--primary-soft),transparent 50%),var(--bg)}
+.start-card{background:#fff;max-width:860px;width:100%;border-radius:24px;box-shadow:0 20px 60px rgba(0,0,0,.12);overflow:hidden}
+.start-head{background:linear-gradient(135deg,var(--primary),var(--primary-2));color:#fff;padding:34px 36px 30px}
+.start-head .tag{display:inline-block;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:.8em;padding:4px 12px;border-radius:30px;letter-spacing:.05em;text-transform:uppercase}
+.start-head h1{margin:12px 0 6px;font-size:2.1em;line-height:1.15}
+.start-head p{margin:0;opacity:.9}
+.start-body{padding:28px 36px 34px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:22px}
+.fact{background:var(--primary-soft);border-radius:var(--radius);padding:14px 16px}
+.fact b{display:block;font-size:1.5em;color:var(--primary)}
+.fact span{font-size:.85em;color:var(--muted)}
+.rules{background:#fffbea;border:2px solid var(--accent);border-radius:var(--radius);padding:14px 20px;margin-bottom:22px}
+.rules h3{margin:0 0 6px;font-size:1em}
+.rules ul{margin:0;padding-left:22px}
+.rules li{margin:3px 0}
+.field-row{display:grid;grid-template-columns:2fr 1fr;gap:12px;margin-bottom:18px}
+.field-row label{font-weight:600;font-size:.9em;display:block;margin-bottom:4px}
+.field-row input{width:100%;padding:12px 14px;border:2px solid #d5d9e2;border-radius:10px}
+.field-row input:focus{outline:none;border-color:var(--primary)}
+.start-actions{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.btn{border:none;border-radius:12px;padding:12px 22px;font-weight:700;transition:.15s}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{filter:brightness(1.12)}
+.btn-accent{background:var(--accent);color:var(--accent-ink)}
+.btn-ghost{background:#fff;color:var(--primary);border:2px solid var(--primary)}
+.btn-big{font-size:1.15em;padding:15px 30px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.credit{text-align:center;color:var(--muted);font-size:.8em;margin-top:22px}
+
+/* ---------- exam header ---------- */
+#exam{height:100vh;display:flex;flex-direction:column}
+.topbar{background:var(--primary);color:#fff;display:flex;align-items:center;gap:14px;padding:8px 16px;flex-wrap:wrap}
+.topbar .title{font-weight:700;font-size:1.05em}
+.topbar .who{opacity:.85;font-size:.85em}
+.topbar .spacer{flex:1}
+.timer{background:rgba(255,255,255,.14);border-radius:10px;padding:4px 14px;font-variant-numeric:tabular-nums;font-weight:800;font-size:1.35em;min-width:120px;text-align:center}
+.timer.warn{background:var(--accent);color:var(--accent-ink);animation:pulse 1s infinite}
+.timer small{display:block;font-size:.5em;font-weight:600;opacity:.85;letter-spacing:.06em;text-transform:uppercase}
+@keyframes pulse{50%{transform:scale(1.05)}}
+.tb-btn{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:10px;padding:7px 14px;font-weight:600;font-size:.85em}
+.tb-btn:hover{background:rgba(255,255,255,.28)}
+.tb-btn.submit{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.gear{background:none;border:none;color:#fff;opacity:.35;font-size:1.1em;padding:4px}
+.gear:hover{opacity:.9}
+.fontctl{display:flex;gap:4px}
+.fontctl button{background:rgba(255,255,255,.15);border:none;color:#fff;border-radius:8px;width:34px;height:32px;font-weight:700}
+
+.partbar{display:flex;gap:6px;padding:8px 16px;background:#fff;border-bottom:1px solid #e3e6ee;align-items:center;flex-wrap:wrap}
+.parttab{background:var(--bg);border:2px solid transparent;border-radius:30px;padding:6px 16px;font-weight:600;color:var(--muted);font-size:.9em}
+.parttab.active{background:var(--primary);color:#fff}
+.parttab .cnt{font-size:.8em;opacity:.8;margin-left:6px}
+.hl-toggle{margin-left:auto;background:#fff;border:2px solid #f5d000;border-radius:30px;padding:5px 14px;font-weight:600;font-size:.85em}
+.hl-toggle.on{background:#fff27a}
+
+.main{flex:1;display:flex;min-height:0}
+.pane{overflow-y:auto;padding:22px 28px 40px}
+.pane.passage{flex:1 1 52%;background:#fff;border-right:4px solid var(--primary-soft)}
+.pane.qs{flex:1 1 48%;background:var(--bg)}
+.pane.qs.full{flex-basis:100%;max-width:1000px;margin:0 auto}
+.passage h2{margin:0 0 4px;color:var(--primary);font-size:1.45em}
+.passage .sub{color:var(--muted);font-style:italic;margin:0 0 16px}
+.passage .readhead{font-size:.8em;text-transform:uppercase;letter-spacing:.08em;color:var(--accent-dark);font-weight:700}
+.passage p{margin:0 0 14px}
+.passage p .pl{font-weight:800;color:var(--primary);margin-right:8px}
+.passage.hlmode{cursor:text}
+mark{background:#fff27a;padding:0 1px;border-radius:2px;cursor:pointer}
+
+/* ---------- questions ---------- */
+.group{background:#fff;border-radius:var(--radius);padding:18px 20px;margin-bottom:18px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.group h3{margin:0 0 4px;color:var(--primary);font-size:1.05em}
+.instr{margin:0 0 12px;color:#333}
+.instr b{color:var(--accent-dark)}
+.optbox{background:var(--primary-soft);border-radius:10px;padding:10px 16px;margin:0 0 14px}
+.optbox h4{margin:0 0 4px;font-size:.95em}
+.optbox div{margin:2px 0}
+.optbox .L{font-weight:800;color:var(--primary);display:inline-block;min-width:34px}
+.example{background:#f3f4f6;border-left:4px solid var(--muted);padding:6px 12px;margin-bottom:12px;font-size:.92em}
+.q{display:flex;gap:12px;padding:10px 0;border-top:1px dashed #e3e6ee;align-items:flex-start}
+.q:first-of-type{border-top:none}
+.qn{flex:0 0 auto;background:var(--primary);color:#fff;font-weight:800;border-radius:8px;min-width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-size:.9em;padding:0 6px}
+.qbody{flex:1}
+.qbody p{margin:0 0 6px}
+.opts label{display:flex;gap:10px;align-items:flex-start;padding:6px 10px;border-radius:8px;cursor:pointer;border:2px solid transparent}
+.opts label:hover{background:var(--primary-soft)}
+.opts input{margin-top:6px;transform:scale(1.25);accent-color:var(--primary)}
+.opts label.sel{border-color:var(--primary);background:var(--primary-soft)}
+.opts .ol{font-weight:800;color:var(--primary);min-width:20px}
+.tfng{display:flex;gap:8px;flex-wrap:wrap}
+.tfng label{border:2px solid #d5d9e2;border-radius:30px;padding:4px 14px;cursor:pointer;font-weight:600;font-size:.85em;display:flex;gap:6px;align-items:center}
+.tfng input{accent-color:var(--primary)}
+.tfng label.sel{background:var(--primary);color:#fff;border-color:var(--primary)}
+select.ans{padding:6px 10px;border:2px solid #cfd4de;border-radius:8px;min-width:110px;background:#fff}
+input.gap{border:none;border-bottom:2px solid var(--primary);background:var(--primary-soft);padding:2px 8px;width:170px;border-radius:6px 6px 0 0}
+input.gap:focus{outline:none;background:#fff8d6}
+.gapwrap{white-space:nowrap}
+.gapwrap b{display:inline-block;background:var(--primary);color:#fff;border-radius:6px;font-size:.75em;padding:0 6px;margin-right:4px;vertical-align:middle}
+.notes{line-height:2.3}
+.notes h4{margin:12px 0 0;color:var(--primary)}
+.notes ul{margin:0;padding-left:22px}
+.flag{background:none;border:none;font-size:1em;opacity:.3;padding:0 4px;margin-left:4px}
+.flag.on{opacity:1;color:#e11d48}
+.qflash{animation:flash 1.2s}
+@keyframes flash{0%,40%{background:#fff27a}}
+
+/* ---------- navigator ---------- */
+.navbar{background:#fff;border-top:1px solid #e3e6ee;padding:8px 12px;display:flex;gap:4px;flex-wrap:wrap;align-items:center;justify-content:center}
+.navbar .nl{font-weight:700;font-size:.75em;color:var(--muted);margin:0 6px}
+.nb{width:32px;height:30px;border:2px solid #cfd4de;background:#fff;border-radius:7px;font-size:.75em;font-weight:700;color:#555;position:relative}
+.nb.done{background:var(--primary);border-color:var(--primary);color:#fff}
+.nb.flagged::after{content:"";position:absolute;top:-4px;right:-4px;width:9px;height:9px;border-radius:50%;background:#e11d48}
+.nb.cur{outline:3px solid var(--accent)}
+
+/* audio bar (listening) */
+.audiobar{background:#fff;border-bottom:1px solid #e3e6ee;padding:10px 20px;display:flex;align-items:center;gap:14px}
+.audiobar .icon{font-size:1.4em}
+.prog{flex:1;height:10px;background:#e8eaf0;border-radius:10px;overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.audiobar .t{font-variant-numeric:tabular-nums;font-weight:700;font-size:.9em;min-width:120px;text-align:right}
+.audiobar .st{font-weight:700;color:var(--primary);font-size:.9em}
+
+/* ---------- modal / toast ---------- */
+.modal{position:fixed;inset:0;background:rgba(10,15,30,.55);display:flex;align-items:center;justify-content:center;z-index:50;padding:16px}
+.modal .box{background:#fff;border-radius:20px;padding:26px 28px;max-width:520px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.modal h3{margin:0 0 8px;color:var(--primary)}
+.modal .row{display:flex;gap:10px;justify-content:flex-end;margin-top:18px;flex-wrap:wrap}
+.modal input{width:100%;padding:10px 12px;border:2px solid #cfd4de;border-radius:10px;font-size:1.1em;letter-spacing:.3em;text-align:center}
+.tpanel{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.toast{position:fixed;top:70px;left:50%;transform:translateX(-50%);background:#1f2937;color:#fff;padding:12px 22px;border-radius:12px;z-index:60;font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,.25);max-width:90vw;text-align:center}
+.toast.warn{background:#b91c1c}
+.pausecover{position:fixed;inset:0;background:var(--primary);color:#fff;z-index:40;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px}
+.pausecover h2{font-size:2em;margin:0 0 10px}
+
+/* ---------- results ---------- */
+#results{max-width:1050px;margin:0 auto;padding:26px 18px 60px}
+.res-hero{background:linear-gradient(135deg,var(--primary),var(--primary-2));color:#fff;border-radius:24px;padding:28px 32px;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:20px;align-items:center}
+.res-hero h1{margin:0 0 4px;font-size:1.6em}
+.res-hero .big{font-size:3.2em;font-weight:900;line-height:1}
+.res-hero .lbl{font-size:.8em;opacity:.85;text-transform:uppercase;letter-spacing:.06em}
+.res-hero .band{background:var(--accent);color:var(--accent-ink);border-radius:18px;padding:12px 16px;text-align:center}
+.res-actions{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 26px}
+.card{background:#fff;border-radius:18px;padding:20px 24px;margin-bottom:20px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.card h2{margin:0 0 12px;color:var(--primary);font-size:1.25em}
+.brow{display:grid;grid-template-columns:1.6fr 70px 2fr;gap:12px;align-items:center;padding:6px 0;border-bottom:1px solid #f0f1f5}
+.bbar{height:12px;background:#eef0f4;border-radius:10px;overflow:hidden}
+.bbar i{display:block;height:100%;background:var(--primary)}
+.bbar i.low{background:#e11d48}.bbar i.mid{background:var(--accent)}
+table.rev{width:100%;border-collapse:collapse;font-size:.92em}
+table.rev th{background:var(--primary-soft);text-align:left;padding:8px}
+table.rev td{padding:8px;border-bottom:1px solid #eef0f4;vertical-align:top}
+.ok{color:#15803d;font-weight:800}.no{color:#b91c1c;font-weight:800}
+.ev{color:var(--muted);font-size:.88em;font-style:italic}
+.gloss{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+.gloss div{background:var(--primary-soft);border-radius:10px;padding:8px 12px}
+.gloss b{color:var(--primary)}
+.meta{color:var(--muted);font-size:.85em}
+
+/* certificate */
+#cert{position:fixed;inset:0;background:rgba(10,15,30,.6);z-index:70;display:flex;align-items:center;justify-content:center;padding:16px}
+.certbox{background:#fff;width:900px;max-width:100%;padding:16px;border-radius:12px}
+.certin{border:10px double var(--primary);padding:40px 46px;text-align:center;background:radial-gradient(circle at 50% 0,var(--accent-soft),#fff 60%)}
+.certin .small{letter-spacing:.3em;text-transform:uppercase;color:var(--muted);font-size:.8em}
+.certin h1{font-family:Georgia,serif;color:var(--primary);font-size:2.4em;margin:8px 0}
+.certin .name{font-family:Georgia,serif;font-size:2.1em;border-bottom:2px solid var(--accent);display:inline-block;padding:0 30px 4px;margin:10px 0}
+.certin .bandbig{display:inline-block;background:var(--primary);color:#fff;border-radius:50%;width:110px;height:110px;line-height:110px;font-size:2.4em;font-weight:900;margin:14px 0}
+.certfoot{display:flex;justify-content:space-between;margin-top:26px;font-size:.85em;color:var(--muted)}
+canvas#confetti{position:fixed;inset:0;pointer-events:none;z-index:80}
+
+@media (max-width:860px){
+ .main{flex-direction:column;overflow-y:auto}
+ .pane{overflow:visible}
+ .pane.passage{border-right:none;border-bottom:4px solid var(--primary-soft)}
+ .res-hero{grid-template-columns:1fr}
+ .field-row{grid-template-columns:1fr}
+}
+@media print{
+ body{background:#fff}
+ .no-print,.topbar,.navbar,.res-actions{display:none!important}
+ body.printing-cert > *:not(#cert){display:none!important}
+ body.printing-cert #cert{position:static;background:none;padding:0}
+ body.printing-cert .certbox{box-shadow:none;width:100%}
+ .card{box-shadow:none;border:1px solid #ddd;break-inside:avoid}
+}
+</style></head><body><div id="app"></div>
+<script>window.EXAM = {
+id:'lsc0316-final-listening', skill:'listening', pin:'0316',
+title:'IELTS Final Exam Practice · Listening', short:'Final Exam · Listening', tag:'LSC 0316 · Exam conditions',
+subtitle:'Cambridge IELTS 18 · Test 1 · Four parts · 40 questions',
+audio:'listening-test.mp3', checkTime:120,
+facts:[['≈ 30 min','The recording plays once'],['40','Questions in 4 parts'],['2 min','Check time at the end'],['Auto','Submits after check time']],
+rules:[
+ 'The recording starts as soon as you press <b>Start</b>. It plays <b>once only</b>, and you cannot pause, stop or rewind it.',
+ 'Read ahead! You can move between all four parts at any time with the tabs.',
+ 'When the recording ends, you have <b>2 minutes</b> to check your answers. Then your answers are submitted automatically.',
+ 'Spelling counts. Follow the word limit in each instruction.',
+ 'Leaving this page is recorded. Use <b>💾 Save</b> only if your teacher asks you to.'
+],
+bands:[[39,9],[37,8.5],[35,8],[32,7.5],[30,7],[26,6.5],[23,6],[18,5.5],[16,5],[13,4.5],[10,4],[8,3.5],[6,3],[4,2.5],[0,0]],
+parts:[
+ {label:'Part 1', short:'P1', range:'1–10'},
+ {label:'Part 2', short:'P2', range:'11–20'},
+ {label:'Part 3', short:'P3', range:'21–30'},
+ {label:'Part 4', short:'P4', range:'31–40'}
+],
+groups:[
+/* ---------- Part 1 ---------- */
+{part:0, range:'1–10', qtype:'Form / note completion', type:'notes', title:'Transport Survey',
+ instr:'Complete the notes below. Write <b>ONE WORD AND/OR A NUMBER</b> for each answer.',
+ html:'<h4 style="text-align:center;font-size:1.15em">Transport Survey</h4>'+
+  '<div><b>Name:</b> Sadie Jones</div><div><b>Year of birth:</b> 1991</div><div><b>Postcode:</b> {1}</div>'+
+  '<h4>Travelling by bus</h4><div>Date of bus journey: {2}</div><div>Reason for trip: shopping and visit to the {3}</div>'+
+  '<div>Travelled by bus because cost of {4} too high</div><div>Got on bus at {5} Street</div>'+
+  '<div>Complaints about bus service:</div><ul><li>bus today was {6}</li><li>frequency of buses in the {7}</li></ul>'+
+  '<h4>Travelling by car</h4><div>Goes to the {8} by car</div>'+
+  '<h4>Travelling by bicycle</h4><div>Dislikes travelling by bike in the city centre because of the {9}</div><div>Doesn\'t own a bike because of a lack of {10}</div>',
+ ans:{1:['DW30 7YZ','DW307YZ'],2:['24th April','24 April','April 24','April 24th','24/4','24.4'],3:['dentist'],4:['parking'],5:['Claxby'],6:['late'],7:['evening'],8:['supermarket'],9:['pollution'],10:['storage']},
+ items:[1,2,3,4,5,6,7,8,9,10].map(n=>({n}))},
+
+/* ---------- Part 2 ---------- */
+{part:1, range:'11–13', qtype:'Multiple choice', type:'mc', title:'Becoming a volunteer for ACE',
+ instr:'Choose the correct letter, <b>A, B or C</b>.',
+ items:[
+  {n:11, text:'Why does the speaker apologise about the seats?', ans:'C', opts:[['A','They are too small.'],['B','There are not enough of them.'],['C','Some of them are very close together.']]},
+  {n:12, text:'What does the speaker say about the age of volunteers?', ans:'A', opts:[['A','The age of volunteers is less important than other factors.'],['B','Young volunteers are less reliable than older ones.'],['C','Most volunteers are about 60 years old.']]},
+  {n:13, text:'What does the speaker say about training?', ans:'A', opts:[['A','It is continuous.'],['B','It is conducted by a manager.'],['C','It takes place online.']]}
+ ]},
+{part:1, range:'14–15', qtype:'Choose TWO letters', type:'two',
+ instr:'Choose <b>TWO</b> letters, <b>A–E</b>.',
+ items:[{nums:[14,15], text:'Which <b>TWO</b> issues does the speaker ask the audience to consider before they apply to be volunteers?', ans:['B','E'],
+  opts:[['A','their financial situation'],['B','their level of commitment'],['C','their work experience'],['D','their ambition'],['E','their availability']]}]},
+{part:1, range:'16–20', qtype:'Matching', type:'select',
+ instr:'What does the speaker suggest would be helpful for each of the following areas of voluntary work? Choose <b>FIVE</b> answers from the box and write the correct letter, <b>A–G</b>, next to Questions 16–20.',
+ box:{title:'Helpful things volunteers might offer', items:[['A','experience on stage'],['B','original new ideas'],['C','parenting skills'],['D','an understanding of food and diet'],['E','retail experience'],['F','a good memory'],['G','a good level of fitness']]},
+ letters:['A','B','C','D','E','F','G'],
+ items:[
+  {n:16, text:'Fundraising', ans:'D'},
+  {n:17, text:'Litter collection', ans:'G'},
+  {n:18, text:'\'Playmates\'', ans:'B'},
+  {n:19, text:'Story club', ans:'A'},
+  {n:20, text:'First aid', ans:'F'}
+ ]},
+
+/* ---------- Part 3 ---------- */
+{part:2, range:'21–26', qtype:'Multiple choice', type:'mc', title:'Talk on jobs in fashion design',
+ instr:'Choose the correct letter, <b>A, B or C</b>.',
+ items:[
+  {n:21, text:'What problem did Chantal have at the start of the talk?', ans:'A', opts:[['A','Her view of the speaker was blocked.'],['B','She was unable to find an empty seat.'],['C','The students next to her were talking.']]},
+  {n:22, text:'What were Hugo and Chantal surprised to hear about the job market?', ans:'B', opts:[['A','It has become more competitive than it used to be.'],['B','There is more variety in it than they had realised.'],['C','Some areas of it are more exciting than others.']]},
+  {n:23, text:'Hugo and Chantal agree that the speaker\'s message was', ans:'A', opts:[['A','unfair to them at times.'],['B','hard for them to follow.'],['C','critical of the industry.']]},
+  {n:24, text:'What do Hugo and Chantal criticise about their school careers advice?', ans:'C', opts:[['A','when they received the advice'],['B','how much advice was given'],['C','who gave the advice']]},
+  {n:25, text:'When discussing their future, Hugo and Chantal disagree on', ans:'B', opts:[['A','which is the best career in fashion.'],['B','when to choose a career in fashion.'],['C','why they would like a career in fashion.']]},
+  {n:26, text:'How does Hugo feel about being an unpaid assistant?', ans:'A', opts:[['A','He is realistic about the practice.'],['B','He feels the practice is dishonest.'],['C','He thinks others want to change the practice.']]}
+ ]},
+{part:2, range:'27–28', qtype:'Choose TWO letters', type:'two',
+ instr:'Choose <b>TWO</b> letters, <b>A–E</b>.',
+ items:[{nums:[27,28], text:'Which <b>TWO</b> mistakes did the speaker admit she made in her first job?', ans:['B','E'],
+  opts:[['A','being dishonest to her employer'],['B','paying too much attention to how she looked'],['C','expecting to become well-known'],['D','trying to earn a lot of money'],['E','openly disliking her client']]}]},
+{part:2, range:'29–30', qtype:'Choose TWO letters', type:'two',
+ instr:'Choose <b>TWO</b> letters, <b>A–E</b>.',
+ items:[{nums:[29,30], text:'Which <b>TWO</b> pieces of retail information do Hugo and Chantal agree would be useful?', ans:['A','C'],
+  opts:[['A','the reasons people return fashion items'],['B','how much time people have to shop for clothes'],['C','fashion designs people want but can\'t find'],['D','the best time of year for fashion buying'],['E','the most popular fashion sizes']]}]},
+
+/* ---------- Part 4 ---------- */
+{part:3, range:'31–40', qtype:'Note completion', type:'notes', title:'Elephant translocation',
+ instr:'Complete the notes below. Write <b>ONE WORD ONLY</b> for each answer.',
+ html:'<h4 style="text-align:center;font-size:1.15em">Elephant translocation</h4>'+
+  '<h4>Reasons for overpopulation at Majete National Park</h4><ul><li>strict enforcement of anti-poaching laws</li><li>successful breeding</li></ul>'+
+  '<h4>Problems caused by elephant overpopulation</h4><ul><li>greater competition, causing hunger for elephants</li><li>damage to {31} in the park</li></ul>'+
+  '<h4>The translocation process</h4><ul><li>a suitable group of elephants from the same {32} was selected</li>'+
+  '<li>vets and park staff made use of {33} to help guide the elephants into an open plain</li>'+
+  '<li>elephants were immobilised with tranquilisers</li><li>this process had to be completed quickly to reduce {34}</li>'+
+  '<li>elephants had to be turned on their {35} to avoid damage to their lungs</li>'+
+  '<li>elephants\' {36} had to be monitored constantly</li><li>tracking devices were fitted to the matriarchs</li>'+
+  '<li>data including the size of their tusks and {37} was taken</li><li>elephants were taken by truck to their new reserve</li></ul>'+
+  '<h4>Advantages of translocation at Nkhotakota Wildlife Reserve</h4><ul><li>{38} opportunities</li>'+
+  '<li>a reduction in the number of poachers and {39}</li><li>an example of conservation that other parks can follow</li>'+
+  '<li>an increase in {40} as a contributor to GDP</li></ul>',
+ ans:{31:['fences'],32:['family'],33:['helicopters'],34:['stress'],35:['sides'],36:['breathing'],37:['feet'],38:['employment'],39:['weapons'],40:['tourism']},
+ items:[31,32,33,34,35,36,37,38,39,40].map(n=>({n}))}
+]
+};
+</script>
+<script>(function(){
+"use strict";
+const C = window.EXAM;
+const LISTEN = C.skill === 'listening';
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+const S = {app:C.id, name:'', cid:'', answers:{}, flags:{}, remaining:C.duration||0, started:false, submitted:false,
+  tabSwitches:0, highlights:{}, audioTime:0, phase:'audio', part:0, startedAt:null, finishedAt:null, warned:false};
+let running = false, endAt = 0, aud = null, hlOn = false, tick = null;
+
+/* ---------- question index ---------- */
+const QI = {}; // n -> {group, item, kind}
+const ORDER = [];
+C.groups.forEach(g => g.items.forEach(it => {
+  const nums = it.nums || [it.n];
+  nums.forEach((n, k) => { QI[n] = {g, it, k}; ORDER.push(n); });
+}));
+ORDER.sort((a,b)=>a-b);
+const TOTAL = ORDER.length;
+
+/* ---------- build shell ---------- */
+function fmt(sec){ sec = Math.max(0, Math.round(sec)); const m = Math.floor(sec/60), s = sec%60; return String(m).padStart(2,'0')+':'+String(s).padStart(2,'0'); }
+
+function buildStart(){
+  const facts = C.facts.map(f => `<div class="fact"><b>${f[0]}</b><span>${f[1]}</span></div>`).join('');
+  const rules = C.rules.map(r => `<li>${r}</li>`).join('');
+  return `<section id="start"><div class="start-card">
+   <div class="start-head"><span class="tag">${esc(C.tag)}</span><h1>${esc(C.title)}</h1><p>${esc(C.subtitle)}</p></div>
+   <div class="start-body">
+     <div class="facts">${facts}</div>
+     <div class="rules"><h3>Exam rules</h3><ul>${rules}</ul></div>
+     <div class="field-row"><div><label for="sname">Full name</label><input id="sname" autocomplete="off" placeholder="Type your full name"></div>
+     <div><label for="sid">Student ID</label><input id="sid" autocomplete="off" placeholder="H00..."></div></div>
+     <div class="start-actions">
+       <button class="btn btn-primary btn-big" id="startBtn" disabled>Start the exam ▸</button>
+       <label class="btn btn-ghost" style="display:inline-block">📂 Load saved exam<input type="file" id="loadFile" accept=".json,application/json" hidden></label>
+     </div>
+     ${LISTEN ? '<p class="meta" style="margin-top:14px">🎧 Put your headphones on and check the volume before you press Start. The recording begins straight away.</p>' : ''}
+     <div class="credit">Designed by: Nazila Motahari</div>
+   </div></div></section>`;
+}
+
+function buildExam(){
+  const tabs = C.parts.map((p,i)=>`<button class="parttab" data-part="${i}">${esc(p.label)}<span class="cnt">${esc(p.range)}</span></button>`).join('');
+  const passages = LISTEN ? '' : `<div class="pane passage" id="passage">${C.parts.map((p,i)=>`<div class="pwrap" data-part="${i}" id="pw${i}">
+      <div class="readhead">${esc(p.label)} · Questions ${esc(p.range)}</div><h2>${esc(p.passage.title)}</h2>${p.passage.sub?`<p class="sub">${esc(p.passage.sub)}</p>`:''}
+      ${p.passage.paras.map(x=>`<p>${x.l?`<span class="pl">${x.l}</span>`:''}${x.t}</p>`).join('')}</div>`).join('')}</div>`;
+  const qparts = C.parts.map((p,i)=>`<div class="qpart" data-part="${i}">${C.groups.filter(g=>g.part===i).map(renderGroup).join('')}</div>`).join('');
+  const nav = C.parts.map((p,i)=>`<span class="nl">${esc(p.short||p.label)}</span>`+ORDER.filter(n=>QI[n].g.part===i).map(n=>`<button class="nb" data-n="${n}">${n}</button>`).join('')).join('');
+  return `<section id="exam" class="hidden">
+   <div class="topbar">
+     <span class="title">${esc(C.short)}</span><span class="who" id="who"></span><span class="spacer"></span>
+     <span class="fontctl no-print"><button id="fsMinus" title="Smaller text">A−</button><button id="fsPlus" title="Larger text">A+</button></span>
+     <div class="timer" id="timer"><small id="timerLbl">${LISTEN?'Recording':'Time left'}</small><span id="timerVal">--:--</span></div>
+     <button class="tb-btn" id="saveBtn">💾 Save</button>
+     <button class="tb-btn submit" id="submitBtn">Submit ✓</button>
+     <button class="gear" id="gear" title="Teacher">⚙</button>
+   </div>
+   ${LISTEN ? `<div class="audiobar"><span class="icon">🎧</span><span class="st" id="aState">Ready</span><div class="prog"><i id="aProg"></i></div><span class="t" id="aTime">00:00 / --:--</span></div>`:''}
+   <div class="partbar">${tabs}${LISTEN?'':'<button class="hl-toggle" id="hlBtn" title="Select text in the passage to highlight it. Click a highlight to remove it.">🖍 Highlighter: off</button>'}</div>
+   <div class="main">${passages}<div class="pane qs ${LISTEN?'full':''}" id="qs">${qparts}</div></div>
+   <div class="navbar" id="nav">${nav}</div>
+   ${LISTEN?`<audio id="aud" preload="auto" src="${esc(C.audio)}"></audio>`:''}
+  </section>
+  <section id="results" class="hidden"></section>`;
+}
+
+function qhead(n, label){ return `<div class="qn" id="qn${n}">${label||n}</div>`; }
+function flagBtn(n){ return `<button class="flag no-print" data-flag="${n}" title="Flag for review">⚑</button>`; }
+
+function renderGroup(g){
+  let h = `<div class="group" data-type="${esc(g.qtype)}"><h3>Questions ${esc(g.range)}${g.title?` — ${esc(g.title)}`:''}</h3><p class="instr">${g.instr}</p>`;
+  if (g.box) h += `<div class="optbox">${g.box.title?`<h4>${esc(g.box.title)}</h4>`:''}${g.box.items.map(o=>`<div><span class="L">${esc(o[0])}</span>${esc(o[1])}</div>`).join('')}</div>`;
+  if (g.example) h += `<div class="example">${g.example}</div>`;
+  if (g.type === 'notes'){
+    h += `<div class="notes">${g.html.replace(/\{(\d+)\}/g,(m,n)=>`<span class="gapwrap" id="qb${n}"><b>${n}</b><input class="gap" id="q${n}" data-n="${n}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">${flagBtn(n)}</span>`)}</div>`;
+  } else {
+    g.items.forEach(it => {
+      if (g.type === 'tfng'){
+        const opts = g.opts || ['TRUE','FALSE','NOT GIVEN'];
+        h += `<div class="q" id="qb${it.n}">${qhead(it.n)}<div class="qbody"><p>${it.text}${flagBtn(it.n)}</p><div class="tfng">${opts.map(o=>`<label><input type="radio" name="q${it.n}" value="${o}" data-n="${it.n}">${o}</label>`).join('')}</div></div></div>`;
+      } else if (g.type === 'mc'){
+        h += `<div class="q" id="qb${it.n}">${qhead(it.n)}<div class="qbody"><p>${it.text}${flagBtn(it.n)}</p><div class="opts">${it.opts.map(o=>`<label><input type="radio" name="q${it.n}" value="${o[0]}" data-n="${it.n}"><span class="ol">${o[0]}</span><span>${esc(o[1])}</span></label>`).join('')}</div></div></div>`;
+      } else if (g.type === 'two'){
+        const [a,b] = it.nums;
+        h += `<div class="q" id="qb${a}">${qhead(a, a+'–'+b)}<div class="qbody"><p>${it.text}${flagBtn(a)}</p><div class="opts">${it.opts.map(o=>`<label><input type="checkbox" name="q${a}" value="${o[0]}" data-two="${a}"><span class="ol">${o[0]}</span><span>${esc(o[1])}</span></label>`).join('')}</div></div></div>`;
+      } else if (g.type === 'select'){
+        h += `<div class="q" id="qb${it.n}">${qhead(it.n)}<div class="qbody"><p>${it.text}${flagBtn(it.n)}</p><select class="ans" id="q${it.n}" data-n="${it.n}"><option value="">— choose —</option>${g.letters.map(l=>`<option value="${l}">${l}</option>`).join('')}</select></div></div>`;
+      } else if (g.type === 'gap'){
+        h += `<div class="q" id="qb${it.n}">${qhead(it.n)}<div class="qbody"><p>${it.text.replace('{}',`<input class="gap" id="q${it.n}" data-n="${it.n}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">`)}${flagBtn(it.n)}</p></div></div>`;
+      }
+    });
+  }
+  return h + '</div>';
+}
+
+/* ---------- answers ---------- */
+function isAnswered(n){
+  const q = QI[n];
+  if (q.g.type === 'two'){ const a = S.answers[q.it.nums[0]] || []; return a.length > q.k; }
+  const v = S.answers[n]; return v != null && String(v).trim() !== '';
+}
+function restoreInputs(){
+  Object.keys(QI).forEach(n => {
+    n = +n; const q = QI[n]; const v = S.answers[n];
+    if (q.g.type === 'two'){ if (q.k) return; const arr = S.answers[n] || []; $$(`input[data-two="${n}"]`).forEach(i => i.checked = arr.includes(i.value)); }
+    else if (q.g.type === 'tfng' || q.g.type === 'mc'){ $$(`input[name="q${n}"]`).forEach(i => i.checked = (i.value === v)); }
+    else { const el = $('#q'+n); if (el) el.value = v || ''; }
+  });
+  $$('.opts label, .tfng label').forEach(l => l.classList.toggle('sel', l.querySelector('input').checked));
+  refreshNav();
+}
+function refreshNav(){
+  $$('.nb').forEach(b => { const n = +b.dataset.n; b.classList.toggle('done', isAnswered(n)); b.classList.toggle('flagged', !!S.flags[n]); });
+  $$('.flag').forEach(f => f.classList.toggle('on', !!S.flags[f.dataset.flag]));
+  C.parts.forEach((p,i)=>{ const nums = ORDER.filter(n=>QI[n].g.part===i); const done = nums.filter(isAnswered).length; const t = $(`.parttab[data-part="${i}"] .cnt`); if (t) t.textContent = `${done}/${nums.length}`; });
+}
+function onAnswer(e){
+  const t = e.target;
+  if (t.dataset.two){
+    const a = +t.dataset.two; let arr = $$(`input[data-two="${a}"]:checked`).map(i=>i.value);
+    if (arr.length > 2){ t.checked = false; arr = arr.filter(v=>v!==t.value); toast('Choose only TWO letters.'); }
+    S.answers[a] = arr.sort();
+  } else if (t.dataset.n){ S.answers[+t.dataset.n] = t.value; }
+  else return;
+  $$('.opts label, .tfng label').forEach(l => l.classList.toggle('sel', l.querySelector('input').checked));
+  refreshNav();
+}
+
+/* ---------- marking ---------- */
+function norm(s){ return String(s||'').toLowerCase().replace(/[’'`]/g,'').replace(/[^a-z0-9]+/g,' ').trim().replace(/^(the|a|an) /,''); }
+function mark(){
+  const rows = [];
+  ORDER.forEach(n => {
+    const q = QI[n], g = q.g, it = q.it; let given, ok, key;
+    if (g.type === 'two'){
+      const arr = S.answers[it.nums[0]] || []; const hits = arr.filter(v=>it.ans.includes(v)).length;
+      ok = hits > q.k;
+      if (q.k){ given = `<span class="meta">see Q${it.nums[0]}</span>`; key = '<span class="meta">1 mark per correct letter</span>'; }
+      else { given = esc(arr.join(', ') || '—'); key = it.ans.join(' and ') + ' <span class="meta">(any order)</span>'; }
+    } else if (g.type === 'gap' || g.type === 'notes'){
+      const acc = (g.type==='notes' ? g.ans[n] : it.ans); given = S.answers[n] || '';
+      const gn = norm(given), gs = gn.replace(/ /g,'');
+      ok = gn !== '' && acc.some(a => norm(a) === gn || norm(a).replace(/ /g,'') === gs);
+      key = acc[0] + (acc.length>1 ? ` <span class="meta">(also: ${acc.slice(1).join(' / ')})</span>` : '');
+      given = esc(given || '—');
+    } else {
+      given = esc(S.answers[n] || '—'); ok = S.answers[n] === it.ans; key = it.ans;
+    }
+    const ev = g.type==='notes' ? (g.ev && g.ev[n]) : it.ev;
+    rows.push({n, ok, given, key, type:g.qtype, part:g.part, ev:ev||''});
+  });
+  const score = rows.filter(r=>r.ok).length;
+  return {rows, score, band: toBand(score)};
+}
+function toBand(s){ for (const [min,b] of C.bands) if (s >= min) return b; return 0; }
+
+/* ---------- timer ---------- */
+function startClock(){ running = true; if (!LISTEN || S.phase==='check') endAt = Date.now() + S.remaining*1000; }
+function loop(){
+  if (!S.started || S.submitted) return;
+  if (LISTEN){
+    if (S.phase === 'audio'){
+      const d = aud.duration || 0, ct = aud.currentTime || 0;
+      $('#aProg').style.width = d ? (ct/d*100)+'%' : '0';
+      $('#aTime').textContent = fmt(ct)+' / '+(d?fmt(d):'--:--');
+      $('#timerVal').textContent = d ? fmt(d-ct) : '--:--';
+      if (!aud.paused) S.audioTime = ct;
+    } else if (running){
+      S.remaining = Math.max(0,(endAt - Date.now())/1000);
+      $('#timerVal').textContent = fmt(S.remaining);
+      $('#timer').classList.toggle('warn', S.remaining <= 30);
+      if (S.remaining <= 0) finish(true);
+    }
+  } else if (running){
+    S.remaining = Math.max(0,(endAt - Date.now())/1000);
+    $('#timerVal').textContent = fmt(S.remaining);
+    $('#timer').classList.toggle('warn', S.remaining <= 300);
+    if (S.remaining <= 300 && !S.warned){ S.warned = true; toast('⏰ 5 minutes left. Check that every question has an answer.', 5000); }
+    if (S.remaining <= 0) finish(true);
+  }
+}
+
+/* ---------- listening audio ---------- */
+function wireAudio(){
+  aud = $('#aud');
+  aud.addEventListener('ended', () => {
+    S.phase = 'check'; S.remaining = C.checkTime; S.audioTime = aud.duration;
+    $('#aState').textContent = 'Recording finished'; $('#timerLbl').textContent = 'Check time';
+    $('#aProg').style.width = '100%';
+    endAt = Date.now() + S.remaining*1000; running = true;
+    toast(`🎧 The recording has finished. You have ${Math.round(C.checkTime/60)} minutes to check your answers.`, 6000);
+  });
+  aud.addEventListener('error', () => { $('#aState').textContent = '⚠ Audio not found'; toast(`Audio file "${C.audio}" could not be loaded. Ask your teacher.`, 8000, true); });
+  aud.addEventListener('playing', () => { $('#aState').textContent = 'Playing…'; });
+  aud.addEventListener('pause', () => { if (!aud.ended && S.phase==='audio') $('#aState').textContent = 'Paused by teacher'; });
+  // students cannot control the media: block keyboard media keys
+  if ('mediaSession' in navigator){ ['pause','seekbackward','seekforward','seekto','previoustrack','nexttrack'].forEach(a=>{ try{ navigator.mediaSession.setActionHandler(a, ()=>{}); }catch(e){} }); }
+}
+function playAudio(){
+  if (S.phase !== 'audio') { $('#aState').textContent='Recording finished'; $('#timerLbl').textContent='Check time'; startClock(); return; }
+  const go = () => { try { if (S.audioTime && Math.abs(aud.currentTime - S.audioTime) > 1) aud.currentTime = S.audioTime; } catch(e){}
+    const p = aud.play(); if (p) p.catch(()=>cover('Start the recording', 'Your browser needs one more click to play the audio.', 'Play ▸', playAudio)); };
+  if (aud.readyState >= 1) go(); else { $('#aState').textContent = 'Loading audio…'; aud.addEventListener('loadedmetadata', go, {once:true}); aud.load(); }
+}
+
+/* ---------- screens ---------- */
+function showPart(i){
+  S.part = i;
+  $$('.parttab').forEach(t=>t.classList.toggle('active', +t.dataset.part===i));
+  $$('.qpart').forEach(p=>p.classList.toggle('hidden', +p.dataset.part!==i));
+  $$('.pwrap').forEach(p=>p.classList.toggle('hidden', +p.dataset.part!==i));
+  $('#qs').scrollTop = 0; if ($('#passage')) $('#passage').scrollTop = 0;
+}
+function goTo(n){
+  const p = QI[n].g.part; if (p !== S.part) showPart(p);
+  const el = $('#qb'+n) || $('#qb'+QI[n].it.nums?.[0]);
+  if (el){ el.scrollIntoView({behavior:'smooth', block:'center'}); el.classList.remove('qflash'); void el.offsetWidth; el.classList.add('qflash'); const inp = $('#q'+n); if (inp && inp.focus) setTimeout(()=>inp.focus({preventScroll:true}),300); }
+}
+function enterExam(){
+  $('#start').classList.add('hidden'); $('#exam').classList.remove('hidden');
+  $('#who').textContent = `${S.name}${S.cid?' · '+S.cid:''}`;
+  if (!LISTEN) Object.keys(S.highlights).forEach(i => { const w = $('#pw'+i); if (w && S.highlights[i]) w.innerHTML = S.highlights[i]; });
+  restoreInputs(); showPart(S.part||0);
+  $('#timerVal').textContent = LISTEN ? '--:--' : fmt(S.remaining);
+}
+
+/* ---------- save / load ---------- */
+function snapshot(){
+  if (!LISTEN) C.parts.forEach((p,i)=>{ const w=$('#pw'+i); if (w) S.highlights[i] = w.innerHTML; });
+  if (LISTEN && aud && S.phase==='audio') S.audioTime = aud.currentTime;
+  return JSON.parse(JSON.stringify(S));
+}
+function download(name, text){ const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([text],{type:'application/json'})); a.download = name; document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 500); }
+function fileSafe(s){ return (s||'student').replace(/[^\w؀-ۿ-]+/g,'_'); }
+function save(){ const d = snapshot(); d.savedAt = new Date().toISOString(); download(`${C.id}_${fileSafe(S.name)}_progress.json`, JSON.stringify(d,null,1)); toast('💾 Progress saved to your Downloads folder. Load this file to continue later.', 4000); }
+function load(file){
+  const r = new FileReader();
+  r.onload = () => {
+    let d; try { d = JSON.parse(r.result); } catch(e){ return toast('That file could not be read.', 4000, true); }
+    if (d.app !== C.id) return toast('This save file belongs to a different app.', 5000, true);
+    Object.assign(S, d);
+    if (S.submitted){ $('#start').classList.add('hidden'); enterExam(); $('#exam').classList.add('hidden'); showResults(); return; }
+    enterExam(); S.started = true; running = false;
+    cover('Saved exam loaded', `Welcome back, ${esc(S.name)}. ${LISTEN ? (S.phase==='audio' ? 'The recording will continue from '+fmt(S.audioTime)+'.' : 'You are in the final check time: '+fmt(S.remaining)+' left.') : 'You have '+fmt(S.remaining)+' left.'}`, 'Continue ▸', resume);
+  };
+  r.readAsText(file);
+}
+
+/* ---------- pause cover / modals / toast ---------- */
+function cover(title, msg, btn, fn){
+  let c = $('#cover'); if (c) c.remove();
+  c = document.createElement('div'); c.id='cover'; c.className='pausecover';
+  c.innerHTML = `<h2>${title}</h2><p style="max-width:560px">${msg}</p>${btn?`<button class="btn btn-accent btn-big" id="coverBtn">${btn}</button>`:''}`;
+  document.body.appendChild(c); if (btn) $('#coverBtn').onclick = () => { c.remove(); fn && fn(); };
+}
+function modal(html){ const m = document.createElement('div'); m.className='modal'; m.innerHTML = `<div class="box">${html}</div>`; document.body.appendChild(m); return m; }
+let toastT;
+function toast(msg, ms=3000, warn=false){ let t = $('#toast'); if (!t){ t = document.createElement('div'); t.id='toast'; document.body.appendChild(t); } t.className = 'toast'+(warn?' warn':''); t.textContent = msg; t.style.display='block'; clearTimeout(toastT); toastT = setTimeout(()=>t.style.display='none', ms); }
+
+function pause(){
+  running = false;
+  if (LISTEN && S.phase==='audio') aud.pause(); else S.remaining = Math.max(0,(endAt-Date.now())/1000);
+  cover('⏸ Exam paused', 'Your teacher has paused the exam. Please wait.', null);
+}
+function resume(){ $('#cover') && $('#cover').remove(); if (LISTEN) playAudio(); else startClock(); }
+
+function teacher(){
+  const m = modal(`<h3>Teacher controls</h3><p class="meta">Enter the teacher PIN.</p><input type="password" id="pin" inputmode="numeric" maxlength="8"><div class="row"><button class="btn btn-ghost" id="pc">Cancel</button><button class="btn btn-primary" id="pk">Unlock</button></div>`);
+  const close = () => m.remove();
+  $('#pc').onclick = close; $('#pin').focus();
+  const go = () => {
+    if ($('#pin').value !== C.pin){ toast('Wrong PIN.', 2000, true); return; }
+    const paused = !!$('#cover');
+    m.querySelector('.box').innerHTML = `<h3>Teacher controls</h3><p class="meta">Tab switches recorded: <b>${S.tabSwitches}</b></p><div class="tpanel">
+      <button class="btn btn-primary" id="t1">${paused?'▶ Resume':'⏸ Pause'}</button>
+      ${LISTEN?'<button class="btn btn-ghost" id="t2">⏪ Back 20 seconds</button>':'<button class="btn btn-ghost" id="t2">＋5 minutes</button>'}
+      <button class="btn btn-ghost" id="t3">＋1 minute</button>
+      <button class="btn btn-accent" id="t4">End exam now</button></div><div class="row"><button class="btn btn-ghost" id="t5">Close</button></div>`;
+    $('#t1').onclick = () => { close(); paused ? resume() : pause(); };
+    $('#t2').onclick = () => { if (LISTEN){ if (S.phase==='audio'){ aud.currentTime = Math.max(0, aud.currentTime-20); toast('Audio moved back 20 seconds.'); } } else { addTime(300); } close(); };
+    $('#t3').onclick = () => { addTime(60); close(); };
+    $('#t4').onclick = () => { close(); $('#cover') && $('#cover').remove(); finish(true); };
+    $('#t5').onclick = close;
+  };
+  $('#pk').onclick = go; $('#pin').addEventListener('keydown', e => { if (e.key==='Enter') go(); });
+}
+function addTime(sec){
+  if (LISTEN && S.phase==='audio'){ C.checkTime += sec; toast(`Check time increased by ${sec/60} min.`); return; }
+  if (running) endAt += sec*1000; else S.remaining += sec;
+  S.warned = false; toast(`${sec/60} minute(s) added.`);
+}
+
+/* ---------- finish & results ---------- */
+function confirmSubmit(){
+  const left = ORDER.filter(n=>!isAnswered(n));
+  const m = modal(`<h3>Submit your answers?</h3><p>${left.length ? `You have <b>${left.length}</b> unanswered question(s): ${left.slice(0,20).join(', ')}${left.length>20?'…':''}.` : 'You have answered every question.'}</p><p>After you submit, you <b>cannot</b> change your answers.</p><div class="row"><button class="btn btn-ghost" id="mc">Go back</button><button class="btn btn-primary" id="mk">Submit now</button></div>`);
+  $('#mc').onclick = () => m.remove();
+  $('#mk').onclick = () => { m.remove(); finish(false); };
+}
+function finish(auto){
+  if (S.submitted) return;
+  snapshot(); running = false; if (aud) aud.pause();
+  S.submitted = true; S.finishedAt = new Date().toISOString();
+  $$('.modal').forEach(m=>m.remove());
+  if (auto) toast('⏱ Time is up. Your answers have been submitted.', 5000);
+  $('#exam').classList.add('hidden'); showResults();
+}
+
+function showResults(){
+  const R = mark(); S.result = {score:R.score, band:R.band};
+  const types = {};
+  R.rows.forEach(r => { (types[r.type] = types[r.type] || {c:0,t:0}); types[r.type].t++; if (r.ok) types[r.type].c++; });
+  const br = Object.entries(types).map(([k,v])=>{ const p = Math.round(v.c/v.t*100); return `<div class="brow"><span>${esc(k)}</span><b>${v.c}/${v.t}</b><div class="bbar"><i class="${p<50?'low':p<75?'mid':''}" style="width:${p}%"></i></div></div>`; }).join('');
+  const weakest = Object.entries(types).filter(([k,v])=>v.t>=2 && v.c<v.t).sort((a,b)=>a[1].c/a[1].t - b[1].c/b[1].t)[0];
+  const rev = C.parts.map((p,i)=>`<h3 style="color:var(--primary);margin:18px 0 6px">${esc(p.label)}${p.passage?': '+esc(p.passage.title):''}</h3><table class="rev"><tr><th>#</th><th>Your answer</th><th>Correct answer</th><th></th>${LISTEN?'':'<th>Where to find it</th>'}</tr>${R.rows.filter(r=>r.part===i).map(r=>`<tr><td><b>${r.n}</b></td><td>${r.given}</td><td>${r.key}</td><td>${r.ok?'<span class="ok">✓</span>':'<span class="no">✗</span>'}</td>${LISTEN?'':`<td class="ev">${r.ev}</td>`}</tr>`).join('')}</table>`).join('');
+  const gloss = (C.glossary||[]).map(g=>`<h3 style="margin:14px 0 8px;color:var(--primary)">${esc(g.title)}</h3><div class="gloss">${g.items.map(w=>`<div><b>${esc(w[0])}</b> — ${esc(w[1])}<br><span class="ar">${esc(w[2])}</span></div>`).join('')}</div>`).join('');
+  const used = S.startedAt && S.finishedAt ? Math.round((new Date(S.finishedAt)-new Date(S.startedAt))/60000) : null;
+  $('#results').innerHTML = `
+   <div class="res-hero"><div><div class="lbl">${esc(C.short)} · Results</div><h1>${esc(S.name)}</h1><div style="opacity:.85">${esc(S.cid)}${used!=null?` · ${used} min`:''} · ${new Date(S.finishedAt||Date.now()).toLocaleString()}</div></div>
+   <div><div class="lbl">Correct answers</div><div class="big">${R.score}<span style="font-size:.45em">/${TOTAL}</span></div></div>
+   <div class="band"><div class="lbl">Estimated band</div><div class="big">${R.band.toFixed(1)}</div></div></div>
+   <div class="res-actions no-print"><button class="btn btn-primary" id="rCert">🏅 Certificate</button><button class="btn btn-accent" id="rDl">⬇ Download results for teacher</button><button class="btn btn-ghost" id="rPrint">🖨 Print / Save as PDF</button></div>
+   ${S.tabSwitches?`<div class="card" style="border-left:6px solid #e11d48"><b>Note:</b> the exam page was left ${S.tabSwitches} time(s) during the test.</div>`:''}
+   <div class="card"><h2>Your score by question type</h2>${br}${weakest?`<p style="margin:14px 0 0">🎯 <b>Focus next:</b> ${esc(weakest[0])}. This was your weakest question type.</p>`:''}</div>
+   <div class="card"><h2>Answer review</h2>${rev}</div>
+   ${gloss?`<div class="card"><h2>Key vocabulary · المفردات</h2>${gloss}</div>`:''}
+   <p class="credit">Band scores are estimates based on the standard IELTS ${LISTEN?'Listening':'Academic Reading'} conversion table. · Designed by: Nazila Motahari</p>`;
+  $('#results').classList.remove('hidden'); window.scrollTo(0,0);
+  $('#rCert').onclick = () => cert(R);
+  $('#rPrint').onclick = () => window.print();
+  $('#rDl').onclick = () => { const d = snapshot(); d.result = {score:R.score, outOf:TOTAL, band:R.band, byType:types, wrong:R.rows.filter(r=>!r.ok).map(r=>r.n)}; download(`${C.id}_${fileSafe(S.name)}_RESULTS.json`, JSON.stringify(d,null,1)); };
+  if (R.band >= 6) confetti();
+}
+function cert(R){
+  const c = document.createElement('div'); c.id='cert';
+  c.innerHTML = `<div class="certbox"><div class="certin"><div class="small">Higher Colleges of Technology · LSC 0316</div><h1>Certificate of Completion</h1><div>This certifies that</div><div class="name">${esc(S.name)}</div>
+  <div>has completed the <b>${esc(C.title)}</b> under exam conditions</div><div class="bandbig">${R.band.toFixed(1)}</div><div>Estimated band · ${R.score}/${TOTAL} correct</div>
+  <div class="certfoot"><span>${new Date(S.finishedAt||Date.now()).toLocaleDateString()}</span><span>Designed by: Nazila Motahari</span></div></div>
+  <div class="row no-print" style="display:flex;gap:10px;justify-content:center;margin-top:14px"><button class="btn btn-primary" id="cp">🖨 Print / Save as PDF</button><button class="btn btn-ghost" id="cx">Close</button></div></div>`;
+  document.body.appendChild(c);
+  $('#cx').onclick = () => c.remove();
+  $('#cp').onclick = () => { document.body.classList.add('printing-cert'); window.print(); setTimeout(()=>document.body.classList.remove('printing-cert'),500); };
+}
+function confetti(){
+  const cv = document.createElement('canvas'); cv.id='confetti'; document.body.appendChild(cv);
+  const x = cv.getContext('2d'); cv.width = innerWidth; cv.height = innerHeight;
+  const cols = [getComputedStyle(document.body).getPropertyValue('--primary'), getComputedStyle(document.body).getPropertyValue('--accent'), '#22c55e', '#e11d48', '#38bdf8'];
+  const P = Array.from({length:160},()=>({x:Math.random()*cv.width, y:-20-Math.random()*cv.height*.5, r:5+Math.random()*6, c:cols[Math.floor(Math.random()*cols.length)].trim(), vy:2+Math.random()*3, vx:-1.5+Math.random()*3, a:Math.random()*6}));
+  let f = 0; (function d(){ x.clearRect(0,0,cv.width,cv.height); P.forEach(p=>{ p.y+=p.vy; p.x+=p.vx; p.a+=.1; x.fillStyle=p.c; x.save(); x.translate(p.x,p.y); x.rotate(p.a); x.fillRect(-p.r/2,-p.r/2,p.r,p.r*.6); x.restore(); }); if (++f < 260) requestAnimationFrame(d); else cv.remove(); })();
+}
+
+/* ---------- highlighter ---------- */
+function wireHighlighter(){
+  const pass = $('#passage'); const btn = $('#hlBtn');
+  btn.onclick = () => { hlOn = !hlOn; btn.classList.toggle('on', hlOn); btn.textContent = '🖍 Highlighter: '+(hlOn?'on':'off'); pass.classList.toggle('hlmode', hlOn); };
+  pass.addEventListener('mouseup', () => {
+    if (!hlOn) return; const sel = getSelection(); if (!sel.rangeCount || sel.isCollapsed) return;
+    const r = sel.getRangeAt(0); const sp = (r.startContainer.nodeType===3?r.startContainer.parentNode:r.startContainer).closest('p');
+    if (!sp || !sp.contains(r.endContainer) || !pass.contains(sp)) { sel.removeAllRanges(); return toast('Highlight inside one paragraph at a time.'); }
+    const m = document.createElement('mark'); m.appendChild(r.extractContents()); r.insertNode(m); sel.removeAllRanges();
+  });
+  pass.addEventListener('click', e => { const m = e.target.closest('mark'); if (m && !getSelection().toString()){ m.replaceWith(...m.childNodes); } });
+}
+
+/* ---------- init ---------- */
+function init(){
+  document.title = C.title;
+  document.getElementById('app').innerHTML = buildStart() + buildExam();
+  const nm = $('#sname'), sb = $('#startBtn');
+  const chk = () => sb.disabled = nm.value.trim().length < 3;
+  nm.addEventListener('input', chk);
+  sb.onclick = () => {
+    S.name = nm.value.trim(); S.cid = $('#sid').value.trim(); S.started = true; S.startedAt = new Date().toISOString();
+    enterExam();
+    if (LISTEN){ S.phase='audio'; playAudio(); } else startClock();
+  };
+  $('#loadFile').addEventListener('change', e => { if (e.target.files[0]) load(e.target.files[0]); e.target.value=''; });
+  $('#qs').addEventListener('input', onAnswer); $('#qs').addEventListener('change', onAnswer);
+  $('#qs').addEventListener('click', e => { const f = e.target.closest('.flag'); if (f){ e.preventDefault(); const n = +f.dataset.flag; S.flags[n] = !S.flags[n]; refreshNav(); } });
+  $('#qs').addEventListener('paste', e => e.preventDefault());
+  $$('.parttab').forEach(t => t.onclick = () => showPart(+t.dataset.part));
+  $('#nav').addEventListener('click', e => { const b = e.target.closest('.nb'); if (b) goTo(+b.dataset.n); });
+  $('#saveBtn').onclick = save; $('#submitBtn').onclick = confirmSubmit; $('#gear').onclick = teacher;
+  let fs = 18; $('#fsPlus').onclick = () => { fs = Math.min(26, fs+2); document.documentElement.style.setProperty('--fs', fs+'px'); };
+  $('#fsMinus').onclick = () => { fs = Math.max(14, fs-2); document.documentElement.style.setProperty('--fs', fs+'px'); };
+  if (LISTEN) wireAudio(); else wireHighlighter();
+  document.addEventListener('visibilitychange', () => { if (document.hidden && S.started && !S.submitted){ S.tabSwitches++; setTimeout(()=>toast('⚠ Leaving the exam page is recorded and reported to your teacher.', 5000, true), 300); } });
+  window.addEventListener('beforeunload', e => { if (S.started && !S.submitted){ e.preventDefault(); e.returnValue = ''; } });
+  document.addEventListener('contextmenu', e => { if (S.started && !S.submitted) e.preventDefault(); });
+  tick = setInterval(loop, 250);
+}
+init();
+})();
+</script>
+</body></html>
