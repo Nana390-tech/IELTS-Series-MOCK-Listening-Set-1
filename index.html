@@ -624,6 +624,13 @@ function showResults(){
    ${gloss?`<div class="card"><h2>Key vocabulary · المفردات</h2>${gloss}</div>`:''}
    <p class="credit">Band scores are estimates based on the standard IELTS ${LISTEN?'Listening':'Academic Reading'} conversion table. · Designed by: Nazila Motahari</p>`;
   $('#results').classList.remove('hidden'); window.scrollTo(0,0);
+  /* summary for the Exam Hub (same github.io site, so localStorage is shared) */
+  const byPart = C.parts.map((p,i)=>{ const rr = R.rows.filter(r=>r.part===i); return {label:p.label+(p.passage?': '+p.passage.title:''), c:rr.filter(r=>r.ok).length, t:rr.length}; });
+  S.hub = {skill:C.skill, app:C.id, name:S.name, cid:S.cid, score:R.score, outOf:TOTAL, band:R.band, byType:types, byPart,
+    wrong:R.rows.filter(r=>!r.ok).map(r=>({n:r.n, type:r.type})), unanswered:ORDER.filter(n=>!isAnswered(n)).length,
+    timeUsedMin:used, tabSwitches:S.tabSwitches, finishedAt:S.finishedAt};
+  try { localStorage.setItem('ieltsFinalSet1:'+C.skill, JSON.stringify(S.hub)); } catch(e){}
+  if (window.opener && !window.opener.closed){ const b = document.createElement('button'); b.className='btn btn-accent'; b.textContent='🏠 Back to the Exam Hub for my feedback'; b.onclick=()=>{ try{ window.opener.focus(); }catch(e){} window.close(); }; $('.res-actions').prepend(b); }
   $('#rCert').onclick = () => cert(R);
   $('#rPrint').onclick = () => window.print();
   $('#rDl').onclick = () => { const d = snapshot(); d.result = {score:R.score, outOf:TOTAL, band:R.band, byType:types, wrong:R.rows.filter(r=>!r.ok).map(r=>r.n)}; download(`${C.id}_${fileSafe(S.name)}_RESULTS.json`, JSON.stringify(d,null,1)); };
